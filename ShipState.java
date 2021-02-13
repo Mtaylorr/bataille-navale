@@ -1,8 +1,14 @@
+import java.util.*;
+import java.lang.*;
+import java.io.*;
 public class ShipState{
     AbstractShip ship;
     boolean struck;
     public ShipState(AbstractShip ship){
         this.ship=ship;
+    }
+    public ShipState(){
+        this(null);
     }
     public void addStrike(){
         if(!struck){
@@ -13,8 +19,9 @@ public class ShipState{
 
     public String toString(){
         if(struck)
-        return ColorUtil.colorize((string(ship.getLabel()),ColorUtil.Color.RED);
-        return ship.getLabel();
+        return ColorUtil.colorize(Character.toString(ship.getLabel()),ColorUtil.Color.RED);
+        return Character.toString(ship.getLabel());
+
     }
 
     public AbstractShip getShip() {

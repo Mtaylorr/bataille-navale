@@ -58,7 +58,7 @@ public class Board implements IBoard{
             line+=" ";
             for(int j=0;j<size;j++){
                 if(shipGrid[i][j]!=null)
-                line+=shipGrid[i][j].toString();
+                    line+=shipGrid[i][j].toString();
                 else
                     line+=".";
                 line+=" ";
@@ -70,10 +70,12 @@ public class Board implements IBoard{
                 line+=" ";
             line+=" ";
             for(int j=0;j<size;j++){
-                if(hitGrid[i][j]==false)
+                if(hitGrid[i][j]!=null && hitGrid[i][j]==false)
                     line+="X";
-                else if(hitGrid[i][j]==true)
-                    line+=ColorUtil.colorize("X", ColorUtil.Color.RED);
+                else if(hitGrid[i][j]!=null && hitGrid[i][j]==true) {
+                    line += ColorUtil.colorize("X", ColorUtil.Color.RED);
+                    System.out.println(ColorUtil.colorize("X", ColorUtil.Color.RED));
+                }
                 else
                     line+='.';
                 line+=" ";
