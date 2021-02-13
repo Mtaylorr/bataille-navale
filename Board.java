@@ -1,5 +1,5 @@
 import java.util.*;
-public class Board{
+public class Board implements IBoard{
     String name;
     int size;
     boolean [][]hitGrid;
@@ -106,4 +106,36 @@ public class Board{
     public void setShipGrid(char[][] shipGrid) {
         this.shipGrid = shipGrid;
     }
+
+    public void putShip(AbstractShip ship, int x, int y){
+        x--;y--;
+        int dx[]= {-1,1,0,0};
+        int dy[]= {0,0,1,-1};
+        int pos = ship.getOrientation().ordinal();
+        for(int i=0;i<ship.getSize();i++){
+            int nx = x+i*dx[pos];
+            int ny = y+i*dy[pos];
+            if(nx<0 || nx>=size || ny<0 || ny>=size || shipGrid[nx][ny]!='.'){
+                System.out.println("Impossible to place the given ship !!");
+                return ;
+            }
+        }
+        for(int i=0;i<ship.getSize();i++){
+            shipGrid[x+i*dx[pos]][y+i*dy[pos]]=ship.getLabel();
+        }
+    }
+
+    public boolean hasShip(int x, int y){
+        x--;y--;
+        return (shipGrid[x][y]!='.');
+    }
+
+    public void setHit(boolean hit, int x, int y){
+        hitGrid[x-1][y-1]=hit;
+    }
+
+    public Boolean getHit(int x, int y){
+        return hitGrid[x-1][y-1];
+    }
+
 }
