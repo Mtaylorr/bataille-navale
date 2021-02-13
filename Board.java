@@ -1,4 +1,6 @@
 import java.util.*;
+import java.lang.*;
+import java.io.*;
 public class Board implements IBoard{
     String name;
     int size;
@@ -107,7 +109,7 @@ public class Board implements IBoard{
         this.shipGrid = shipGrid;
     }
 
-    public void putShip(AbstractShip ship, int x, int y){
+    public void putShip(AbstractShip ship, int x, int y) throws Exception{
         x--;y--;
         int dx[]= {-1,1,0,0};
         int dy[]= {0,0,1,-1};
@@ -116,8 +118,8 @@ public class Board implements IBoard{
             int nx = x+i*dx[pos];
             int ny = y+i*dy[pos];
             if(nx<0 || nx>=size || ny<0 || ny>=size || shipGrid[nx][ny]!='.'){
-                System.out.println("Impossible to place the given ship !!");
-                return ;
+                throw new Exception("Invalid Position");
+                //return ;
             }
         }
         for(int i=0;i<ship.getSize();i++){

@@ -1,4 +1,4 @@
-package ensta;
+//package ensta;
 import java.io.Serializable;
 import java.util.List;
 
@@ -28,7 +28,7 @@ public class Player {
     /**
      * Read keyboard input to get ships coordinates. Place ships on given coodrinates.
      */
-    public void putShips() {
+    public void putShips() throws Exception{
         boolean done = false;
         int i = 0;
 
@@ -37,9 +37,28 @@ public class Player {
             String msg = String.format("placer %d : %s(%d)", i + 1, s.getName(), s.getLength());
             System.out.println(msg);
             InputHelper.ShipInput res = InputHelper.readShipInput();
-            // TODO set ship orientation
+            // TODO set ship orientatio
+            switch (res.orientation){
+                case "n":
+                    s.setOrientation(Orientation.NORTH);
+                    break;
+                case "e":
+                    s.setOrientation(Orientation.EAST);
+                    break;
+                case "w":
+                    s.setOrientation(Orientation.WEST);
+                    break;
+                case "s":
+                    s.setOrientation(Orientation.SOUTH);
+                    break;
+            }
             // TODO put ship at given position
-
+            try{
+                board.putShip(s);
+            }catch(Exception e){
+                System.out.println(e.getMessage());
+                continue;
+            }
             // TODO when ship placement successful
             ++i;
             done = i == 5;
