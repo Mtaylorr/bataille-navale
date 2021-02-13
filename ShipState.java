@@ -23,7 +23,7 @@ public class ShipState{
 
     public String toString(){
         if(struck)
-        return ColorUtil.colorize(Character.toString(ship.getLabel()),ColorUtil.Color.RED);
+            return Character.toString(ship.getLabel()).toLowerCase();//ColorUtil.colorize(Character.toString(ship.getLabel()),ColorUtil.Color.RED);
         return Character.toString(ship.getLabel());
 
     }

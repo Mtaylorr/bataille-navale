@@ -30,7 +30,7 @@ public class Player {
     /**
      * Read keyboard input to get ships coordinates. Place ships on given coodrinates.
      */
-    public void putShips() throws Exception{
+    public void putShips(){
         boolean done = false;
         int i = 0;
 
@@ -55,10 +55,9 @@ public class Player {
                     break;
             }
             // TODO put ship at given position
-            try{
-                board.putShip(s);
-            }catch(Exception e){
-                System.out.println(e.getMessage());
+            if(board.canPutShip(s, res.x,res.y){
+                board.putShip(s, res.x,res.y);
+            }else{
                 continue;
             }
             // TODO when ship placement successful

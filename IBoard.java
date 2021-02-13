@@ -13,7 +13,7 @@ public interface IBoard {
     * @param x
     * @param y
     */
-    void putShip(AbstractShip ship, int x, int y) throws Exception;
+    void putShip(AbstractShip ship, int x, int y);
 
     /**
      * Get if a ship is placed at the given position
@@ -45,6 +45,6 @@ public interface IBoard {
      * @param y
      * @return status for the hit (eg : strike or miss)
      */
-    Hit sendHit(int x, int y) throws Exception;
+    Hit sendHit(int x, int y);
 
 }

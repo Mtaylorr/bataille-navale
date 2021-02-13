@@ -1,4 +1,4 @@
-package ensta;
+//package ensta;
 import java.io.Serializable;
 import java.util.*;
 
@@ -58,16 +58,17 @@ public class BattleShipsAI implements Serializable {
      */
     public void putShips(AbstractShip ships[]) {
         int x, y;
-        AbstractShip.Orientation o;
+        Orientation o;
         Random rnd = new Random();
-        AbstractShip.Orientation[] orientations = AbstractShip.Orientation.values();
+        Orientation[] orientations = Orientation.values();
 
         for (AbstractShip s : ships) {
             do {
                 // TODO use Random to pick a random x, y & orientation
-                x = Random.nextInt(n);
-                y = Random.nextInt(n);
-                o = orientations[Random.nextInt(4)];
+                Random rand = new Random();
+                x = rand.nextInt(board.getSize());
+                y = rand.nextInt(board.getSize());
+                o = orientations[rand.nextInt(4)];
             } while(!canPutShip(s, x, y));
             board.putShip(s, x, y);
         }
@@ -78,7 +79,7 @@ public class BattleShipsAI implements Serializable {
      * @param coords array must be of size 2. Will hold the coord of the send hit.
      * @return the status of the hit.
      */
-    public Hit sendHit(int[] coords) {
+    public Hit sendHit(int[] coords)throws Exception {
         int res[] = null;
         if (coords == null || coords.length < 2) {
             throw new IllegalArgumentException("must provide an initialized array of size 2");
@@ -134,24 +135,24 @@ public class BattleShipsAI implements Serializable {
      */
 
     private boolean canPutShip(AbstractShip ship, int x, int y) {
-        AbstractShip.Orientation o = ship.getOrientation();
+        Orientation o = ship.getOrientation();
         int dx = 0, dy = 0;
-        if (o == AbstractShip.Orientation.EAST) {
+        if (o == Orientation.EAST) {
             if (x + ship.getSize() >= this.size) {
                 return false;
             }
             dx = 1;
-        } else if (o == AbstractShip.Orientation.SOUTH) {
-            if (y + ship.getSize >= this.size) {
+        } else if (o == Orientation.SOUTH) {
+            if (y + ship.getSize() >= this.size) {
                 return false;
             }
             dy = 1;
-        } else if (o == AbstractShip.Orientation.NORTH) {
+        } else if (o == Orientation.NORTH) {
             if (y + 1 - ship.getSize() < 0) {
                 return false;
             }
             dy = -1;
-        } else if (o == AbstractShip.Orientation.WEST) {
+        } else if (o == Orientation.WEST) {
             if (x + 1 - ship.getSize() < 0) {
                 return false;
             }

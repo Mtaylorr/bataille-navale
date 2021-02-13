@@ -22,6 +22,21 @@ public class Board implements IBoard{
         this(_name, 10);
     }
 
+    public boolean canPutShip(AbstractShip ship , int x, int y){
+        x--;y--;
+        int dx[]= {-1,1,0,0};
+        int dy[]= {0,0,1,-1};
+        int pos = ship.getOrientation().ordinal();
+        for(int i=0;i<ship.getSize();i++){
+            int nx = x+i*dx[pos];
+            int ny = y+i*dy[pos];
+            if(nx<0 || nx>=size || ny<0 || ny>=size || shipGrid[nx][ny]!=null){
+                return false;
+            }
+        }
+        return true;
+    }
+
     public void print(){
         String sizeAsString = Integer.toString(size);
         int space = sizeAsString.length();
@@ -73,8 +88,8 @@ public class Board implements IBoard{
                 if(hitGrid[i][j]!=null && hitGrid[i][j]==false)
                     line+="X";
                 else if(hitGrid[i][j]!=null && hitGrid[i][j]==true) {
-                    line += ColorUtil.colorize("X", ColorUtil.Color.RED);
-                    System.out.println(ColorUtil.colorize("X", ColorUtil.Color.RED));
+                    line += "R";//ColorUtil.colorize("X", ColorUtil.Color.RED);
+                    //System.out.println(ColorUtil.colorize("X", ColorUtil.Color.RED));
                 }
                 else
                     line+='.';
@@ -116,50 +131,34 @@ public class Board implements IBoard{
         this.shipGrid = shipGrid;
     }
 
-    public void putShip(AbstractShip ship, int x, int y) throws Exception{
-        x--;y--;
-        int dx[]= {-1,1,0,0};
-        int dy[]= {0,0,1,-1};
+    public void putShip(AbstractShip ship, int x, int y){
+        int dx[]= {0,0,1,-1};
+        int dy[]= {1,-1,0,0};
         int pos = ship.getOrientation().ordinal();
-        for(int i=0;i<ship.getSize();i++){
-            int nx = x+i*dx[pos];
-            int ny = y+i*dy[pos];
-            if(nx<0 || nx>=size || ny<0 || ny>=size || shipGrid[nx][ny]!=null){
-                throw new Exception("Invalid Position");
-                //return ;
-            }
-        }
         for(int i=0;i<ship.getSize();i++){
             shipGrid[x+i*dx[pos]][y+i*dy[pos]]=new ShipState(ship);
         }
     }
 
     public boolean hasShip(int x, int y){
-        x--;y--;
         return ((shipGrid[x][y]!=null)&& (!shipGrid[x][y].isSunk()));
     }
 
     public void setHit(Boolean hit, int x, int y){
-        hitGrid[x-1][y-1]=hit;
+        hitGrid[x][y]=hit;
     }
 
     public Boolean getHit(int x, int y){
-        return hitGrid[x-1][y-1];
+        return hitGrid[x][y];
     }
 
-    public Hit sendHit( int x, int y) throws Exception{
-        x--;
-        y--;
-        if(x<0 || x>=size || y<0 || y>=size){
-            throw new Exception("Invalid position");
-        }
+    public Hit sendHit( int x, int y){
         if(shipGrid[x][y]==null  || shipGrid[x][y].isStruck()){
             return Hit.fromInt(-1);
         }
         shipGrid[x][y].addStrike();
         if(shipGrid[x][y].isSunk()){
             Hit h = Hit.fromInt(shipGrid[x][y].getShip().getSize());
-            System.out.println(h + " coule.");
             return h;
         }else{
             return Hit.fromInt(-2);
