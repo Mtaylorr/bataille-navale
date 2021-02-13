@@ -10,7 +10,7 @@ public class TestBoard{
             System.out.println(e.getMessage());
         }
         try {
-            board.putShip(ship2, 2, 2);
+            board.putShip(ship2, 3,3);
         }catch(Exception e){
             System.out.println(e.getMessage());
         }

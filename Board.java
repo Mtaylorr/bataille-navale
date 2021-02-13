@@ -4,17 +4,17 @@ import java.io.*;
 public class Board implements IBoard{
     String name;
     int size;
-    boolean [][]hitGrid;
-    char [][]shipGrid;
+    Boolean [][]hitGrid;
+    ShipState[][]shipGrid;
     public Board(String _name, int _size){
         this.name=_name;
         this.size=_size;
-        this.hitGrid = new boolean[_size][_size];
-        this.shipGrid = new char[_size][_size];
+        this.hitGrid = new Boolean[_size][_size];
+        this.shipGrid = new ShipState[_size][_size];
         for(int i=0;i<_size;i++){
             for(int j=0;j<_size;j++){
-                hitGrid[i][j]=false;
-                shipGrid[i][j]='.';
+                hitGrid[i][j]=null;
+                shipGrid[i][j]=null;
             }
         }
     }
@@ -57,7 +57,10 @@ public class Board implements IBoard{
                 line+=" ";
             line+=" ";
             for(int j=0;j<size;j++){
-                line+=shipGrid[i][j];
+                if(shipGrid[i][j]!=null)
+                line+=shipGrid[i][j].toString();
+                else
+                    line+=".";
                 line+=" ";
             }
             line+=" ";
@@ -67,21 +70,23 @@ public class Board implements IBoard{
                 line+=" ";
             line+=" ";
             for(int j=0;j<size;j++){
-                if(hitGrid[i][j])
+                if(hitGrid[i][j]==false)
                     line+="X";
+                else if(hitGrid[i][j]==true)
+                    line+=ColorUtil.colorize("X", ColorUtil.Color.RED);
                 else
-                    line+=".";
+                    line+='.';
                 line+=" ";
             }
             System.out.println(line);
         }
     }
 
-    public char[][] getShipGrid() {
+    public ShipState[][] getShipGrid() {
         return shipGrid;
     }
 
-    public boolean[][] getHitGrid() {
+    public Boolean[][] getHitGrid() {
         return hitGrid;
     }
 
@@ -101,11 +106,11 @@ public class Board implements IBoard{
         return size;
     }
 
-    public void setHitGrid(boolean[][] hitGrid) {
+    public void setHitGrid(Boolean[][] hitGrid) {
         this.hitGrid = hitGrid;
     }
 
-    public void setShipGrid(char[][] shipGrid) {
+    public void setShipGrid(ShipState[][] shipGrid) {
         this.shipGrid = shipGrid;
     }
 
@@ -117,22 +122,22 @@ public class Board implements IBoard{
         for(int i=0;i<ship.getSize();i++){
             int nx = x+i*dx[pos];
             int ny = y+i*dy[pos];
-            if(nx<0 || nx>=size || ny<0 || ny>=size || shipGrid[nx][ny]!='.'){
+            if(nx<0 || nx>=size || ny<0 || ny>=size || shipGrid[nx][ny]!=null){
                 throw new Exception("Invalid Position");
                 //return ;
             }
         }
         for(int i=0;i<ship.getSize();i++){
-            shipGrid[x+i*dx[pos]][y+i*dy[pos]]=ship.getLabel();
+            shipGrid[x+i*dx[pos]][y+i*dy[pos]]=new ShipState(ship);
         }
     }
 
     public boolean hasShip(int x, int y){
         x--;y--;
-        return (shipGrid[x][y]!='.');
+        return (!shipGrid[x][y].isSunk());
     }
 
-    public void setHit(boolean hit, int x, int y){
+    public void setHit(Boolean hit, int x, int y){
         hitGrid[x-1][y-1]=hit;
     }
 
