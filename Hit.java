@@ -23,6 +23,10 @@ public enum Hit {
         this.label = label;
     }
 
+    public int getValue(){
+        return this.value;
+    }
+
     /* ***
      * Méthodes
      */
