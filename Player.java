@@ -1,7 +1,9 @@
 //package ensta;
 import java.io.Serializable;
 import java.util.List;
-
+import java.util.*;
+import java.lang.*;
+import java.io.*;
 public class Player {
     /* **
      * Attributs
@@ -72,10 +74,19 @@ public class Player {
         Hit hit = null;
 
         do {
+            done=false;
             System.out.println("où frapper?");
             InputHelper.CoordInput hitInput = InputHelper.readCoordInput();
             // TODO call sendHit on this.opponentBoard
-
+            try {
+                hit = this.opponentBoard.sendHit(hitInput.x, hitInput.y);
+                coords[0] = hitInput.x;
+                coords[1] = hitInput.y;
+                done=true;
+            }catch(Exception e){
+                System.out.println(e);
+                continue;
+            }
             // TODO : Game expects sendHit to return BOTH hit result & hit coords.
             // return hit is obvious. But how to return coords at the same time ?
         } while (!done);

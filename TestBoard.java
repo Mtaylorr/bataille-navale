@@ -15,5 +15,9 @@ public class TestBoard{
             System.out.println(e.getMessage());
         }
         board.print();
+        Hit h = board.sendHit(3,3);
+        h = board.sendHit(3,3);
+        h = board.sendHit(2,3);
+        board.print();
     }
 }

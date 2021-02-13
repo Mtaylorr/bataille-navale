@@ -17,6 +17,10 @@ public class ShipState{
         }
     }
 
+    public boolean isStruck() {
+        return struck;
+    }
+
     public String toString(){
         if(struck)
         return ColorUtil.colorize(Character.toString(ship.getLabel()),ColorUtil.Color.RED);

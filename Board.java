@@ -136,7 +136,7 @@ public class Board implements IBoard{
 
     public boolean hasShip(int x, int y){
         x--;y--;
-        return (!shipGrid[x][y].isSunk());
+        return ((shipGrid[x][y]!=null)&& (!shipGrid[x][y].isSunk()));
     }
 
     public void setHit(Boolean hit, int x, int y){
@@ -145,6 +145,25 @@ public class Board implements IBoard{
 
     public Boolean getHit(int x, int y){
         return hitGrid[x-1][y-1];
+    }
+
+    public Hit sendHit( int x, int y) throws Exception{
+        x--;
+        y--;
+        if(x<0 || x>=size || y<0 || y>=size){
+            throw new Exception("Invalid position");
+        }
+        if(shipGrid[x][y]==null  || shipGrid[x][y].isStruck()){
+            return Hit.fromInt(-1);
+        }
+        shipGrid[x][y].addStrike();
+        if(shipGrid[x][y].isSunk()){
+            Hit h = Hit.fromInt(shipGrid[x][y].getShip().getSize());
+            System.out.println(h + " coule.");
+            return h;
+        }else{
+            return Hit.fromInt(-2);
+        }
     }
 
 }
