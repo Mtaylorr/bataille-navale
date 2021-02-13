@@ -1,8 +1,10 @@
-package ensta;
+//package ensta;
 import java.io.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.lang.*;
 
 public class Game {
 
@@ -26,15 +28,32 @@ public class Game {
     public Game init() {
         if (!loadSave()) {
             // init attributes
+            sin = new Scanner(System.in);
             System.out.println("entre ton nom:");
 
             // TODO use a scanner to read player name
-
+            String playerName = sin.nextLine();
             // TODO init boards
             Board b1, b2;
-
+            b1 = new Board(playerName, 6);
+            b2 = new Board("AI", 6);
             // TODO init this.player1 & this.player2
-
+            ArrayList<AbstractShip> ships1 = new ArrayList<>() ;
+            ships1.add(new Destroyer());
+            ships1.add(new Submarine());
+            ships1.add(new Submarine());
+            ships1.add(new BattleShip());
+            ships1.add(new Carrier());
+            AbstractShip [] shipsAsArray1  = ships1.toArray(new AbstractShip[ships1.size()]);
+            List<AbstractShip> ships2 = new ArrayList<>() ;
+            ships2.add(new Destroyer());
+            ships2.add(new Submarine());
+            ships2.add(new Submarine());
+            ships2.add(new BattleShip());
+            ships2.add(new Carrier());
+            AbstractShip [] shipsAsArray2  = ships2.toArray(new AbstractShip[ships2.size()]);
+            player1 = new Player(b1,b2,ships1);
+            player2 = new AIPlayer(b2,b1,ships2);
             b1.print();
             // place player ships
             player1.putShips();
@@ -46,7 +65,7 @@ public class Game {
     /* ***
      * Méthodes
      */
-    public void run() {
+    public void run() throws Exception {
         int[] coords = new int[2];
         Board b1 = player1.board;
         Hit hit;
@@ -55,8 +74,8 @@ public class Game {
         b1.print();
         boolean done;
         do {
-            hit = Hit.MISS; // TODO player1 send a hit
-            boolean strike = hit != Hit.MISS; // TODO set this hit on his board (b1)
+            hit = player1.sendHit(coords); // TODO player1 send a hit
+            boolean strike = (player1.opponentBoard.sendHit(coords[0],coords[1]) != Hit.MISS); // TODO set this hit on his board (b1)
 
             done = updateScore();
             b1.print();
@@ -66,9 +85,9 @@ public class Game {
 
             if (!done && !strike) {
                 do {
-                    hit = Hit.MISS; // TODO player2 send a hit.
+                    hit = player2.sendHit(coords); // TODO player2 send a hit.
 
-                    strike = hit != Hit.MISS;
+                    strike = (player2.board.sendHit(coords[0],coords[1]) != Hit.MISS);
                     if (strike) {
                         b1.print();
                     }
@@ -90,7 +109,7 @@ public class Game {
 
 
     private void save() {
-        try {
+       /* try {
             // TODO bonus 2 : uncomment
             //  if (!SAVE_FILE.exists()) {
             //      SAVE_FILE.getAbsoluteFile().getParentFile().mkdirs();
@@ -100,11 +119,11 @@ public class Game {
 
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     private boolean loadSave() {
-        if (SAVE_FILE.exists()) {
+        /*if (SAVE_FILE.exists()) {
             try {
                 // TODO bonus 2 : deserialize players
 
@@ -112,7 +131,7 @@ public class Game {
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
         return false;
     }
 
@@ -159,7 +178,7 @@ public class Game {
         return Arrays.asList(new AbstractShip[]{new Destroyer(), new Submarine(), new Submarine(), new BattleShip(), new Carrier()});
     }
 
-    public static void main(String args[]) {
+    public static void main(String args[]) throws Exception{
         new Game().init().run();
     }
 }

@@ -1,8 +1,8 @@
-package ensta;
+//package ensta;
 import java.io.Serializable;
 import java.util.List;
 
-public class AIPlayer extends Player {
+public class AIPlayer extends Player  {
     /* **
      * Attribut
      */
@@ -17,4 +17,12 @@ public class AIPlayer extends Player {
     }
 
     // TODO AIPlayer must not inherit "keyboard behavior" from player. Call ai instead.
+
+    public void putShips(){
+        ai.putShips(this.ships);
+    }
+
+    public Hit sendHit(int[] coords){
+        return ai.sendHit(coords);
+    }
 }
