@@ -23,9 +23,8 @@ public class Board implements IBoard{
     }
 
     public boolean canPutShip(AbstractShip ship , int x, int y){
-        x--;y--;
-        int dx[]= {-1,1,0,0};
-        int dy[]= {0,0,1,-1};
+        int dx[]= {0,0,1,-1};
+        int dy[]= {1,-1,0,0};
         int pos = ship.getOrientation().ordinal();
         for(int i=0;i<ship.getSize();i++){
             int nx = x+i*dx[pos];

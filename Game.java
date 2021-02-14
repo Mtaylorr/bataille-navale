@@ -29,7 +29,7 @@ public class Game {
         if (!loadSave()) {
             // init attributes
             sin = new Scanner(System.in);
-            System.out.println("entre ton nom:");
+            System.out.print("entre ton nom:");
 
             // TODO use a scanner to read player name
             String playerName = sin.nextLine();
@@ -75,7 +75,7 @@ public class Game {
         boolean done;
         do {
             hit = player1.sendHit(coords); // TODO player1 send a hit
-            boolean strike = (player1.opponentBoard.sendHit(coords[0],coords[1]) != Hit.MISS); // TODO set this hit on his board (b1)
+            boolean strike = (hit != Hit.MISS); // TODO set this hit on his board (b1)
 
             done = updateScore();
             b1.print();
@@ -87,7 +87,7 @@ public class Game {
                 do {
                     hit = player2.sendHit(coords); // TODO player2 send a hit.
 
-                    strike = (player2.board.sendHit(coords[0],coords[1]) != Hit.MISS);
+                    strike = (hit != Hit.MISS);
                     if (strike) {
                         b1.print();
                     }
@@ -165,13 +165,13 @@ public class Game {
                 color = ColorUtil.Color.RED;
                 break;
             default:
-                msg = hit.toString() + " coulé";
+                msg = hit.toString() + " coule";
                 color = ColorUtil.Color.RED;
         }
         msg = String.format("%s Frappe en %c%d : %s", incoming ? "<=" : "=>",
-                ((char) ('A' + coords[0])),
-                (coords[1] + 1), msg);
-        return ColorUtil.colorize(msg, color);
+                ((char) ('A' + coords[1])),
+                (coords[0] + 1), msg);
+        return msg;//ColorUtil.colorize(msg, color);
     }
 
     private static List<AbstractShip> createDefaultShips() {

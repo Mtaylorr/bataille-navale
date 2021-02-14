@@ -40,6 +40,7 @@ public class Player {
             System.out.println(msg);
             InputHelper.ShipInput res = InputHelper.readShipInput();
             // TODO set ship orientatio
+           //System.out.println(res.orientation +" "+res.x+" "+res.y);
             switch (res.orientation){
                 case "n":
                     s.setOrientation(Orientation.NORTH);
@@ -55,9 +56,10 @@ public class Player {
                     break;
             }
             // TODO put ship at given position
-            if(board.canPutShip(s, res.x,res.y)){
-                board.putShip(s, res.x,res.y);
+            if(board.canPutShip(s, res.y,res.x)){
+                board.putShip(s, res.y,res.x);
             }else{
+                System.out.println("Invalid Position or direction");
                 continue;
             }
             // TODO when ship placement successful
@@ -74,13 +76,14 @@ public class Player {
 
         do {
             done=false;
-            System.out.println("où frapper?");
+            System.out.println("ou frapper?");
             InputHelper.CoordInput hitInput = InputHelper.readCoordInput();
             // TODO call sendHit on this.opponentBoard
             try {
-                hit = this.opponentBoard.sendHit(hitInput.x, hitInput.y);
-                coords[0] = hitInput.x;
-                coords[1] = hitInput.y;
+                hit = this.opponentBoard.sendHit(hitInput.y, hitInput.x);
+                this.board.setHit((hit!=Hit.MISS),hitInput.y ,hitInput.x);
+                coords[0] = hitInput.y;
+                coords[1] = hitInput.x;
                 done=true;
             }catch(Exception e){
                 System.out.println(e);
