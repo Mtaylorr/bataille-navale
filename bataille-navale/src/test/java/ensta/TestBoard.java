@@ -1,4 +1,4 @@
-
+import ensta.*;
 public class TestBoard{
     public static void main(String[] args) throws Exception{
         Board board = new Board("mahdi",5);

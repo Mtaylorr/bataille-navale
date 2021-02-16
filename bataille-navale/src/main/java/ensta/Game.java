@@ -1,4 +1,4 @@
-//package ensta;
+package ensta;
 import java.io.*;
 import java.util.Arrays;
 import java.util.List;
@@ -29,7 +29,7 @@ public class Game {
         if (!loadSave()) {
             // init attributes
             sin = new Scanner(System.in);
-            System.out.print("entre ton nom:");
+            System.out.print("Entre ton nom: ");
 
             // TODO use a scanner to read player name
             String playerName = sin.nextLine();

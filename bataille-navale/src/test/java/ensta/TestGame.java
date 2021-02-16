@@ -1,5 +1,7 @@
-import java.util.ArrayList;
+import ensta.*;
 import java.lang.*;
+import java.util.ArrayList;
+
 public class TestGame{
     public static void main(String[] args){
         Board board = new Board("Issa", 6);

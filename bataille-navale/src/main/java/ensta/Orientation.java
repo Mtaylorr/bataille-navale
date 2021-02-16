@@ -1,4 +1,6 @@
-enum Orientation{
+package ensta;
+
+public enum Orientation{
         NORTH,
         SOUTH,
         EAST,

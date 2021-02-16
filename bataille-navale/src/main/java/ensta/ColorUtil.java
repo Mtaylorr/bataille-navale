@@ -1,4 +1,4 @@
-//package ensta;
+package ensta;
 public class ColorUtil {
 
     /* ***

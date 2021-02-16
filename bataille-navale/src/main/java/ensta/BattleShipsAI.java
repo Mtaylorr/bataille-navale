@@ -1,4 +1,4 @@
-//package ensta;
+package ensta;
 import java.io.Serializable;
 import java.util.*;
 

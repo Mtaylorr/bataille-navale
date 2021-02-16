@@ -1,3 +1,5 @@
+package ensta;
+
 public abstract class AbstractShip{
     private char label;
     private String name;
