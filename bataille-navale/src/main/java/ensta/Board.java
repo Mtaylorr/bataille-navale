@@ -152,7 +152,7 @@ public class Board implements IBoard{
     }
 
     public Hit sendHit( int x, int y){
-        if(shipGrid[x][y]==null  || shipGrid[x][y].isStruck()){
+        if(shipGrid[x][y]==null){
             return Hit.fromInt(-1);
         }
         shipGrid[x][y].addStrike();
