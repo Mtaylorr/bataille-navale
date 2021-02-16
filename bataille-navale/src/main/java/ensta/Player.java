@@ -36,7 +36,7 @@ public class Player {
 
         do {
             AbstractShip s = ships[i];
-            String msg = String.format("placer %d : %s(%d)", i + 1, s.getName(), s.getSize());
+            String msg = String.format("%s : placer %d : %s(%d)",this.board.getName(), i + 1, s.getName(), s.getSize());
             System.out.println(msg);
             InputHelper.ShipInput res = InputHelper.readShipInput();
             // TODO set ship orientatio
@@ -76,7 +76,7 @@ public class Player {
 
         do {
             done=false;
-            System.out.println("ou frapper?");
+            System.out.println( board.getName()+": ou frapper?");
             InputHelper.CoordInput hitInput = InputHelper.readCoordInput();
             // TODO call sendHit on this.opponentBoard
             try {

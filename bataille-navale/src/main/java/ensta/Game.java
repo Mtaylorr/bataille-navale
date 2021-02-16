@@ -1,5 +1,7 @@
 package ensta;
+
 import java.io.*;
+import java.sql.SQLOutput;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -19,44 +21,78 @@ public class Game {
     private Player player1;
     private Player player2;
     private Scanner sin;
+    private char multiPlayer;
 
     /* ***
      * Constructeurs
      */
-    public Game() {}
+    public Game() {
+    }
 
     public Game init() {
         if (!loadSave()) {
             // init attributes
-            sin = new Scanner(System.in);
-            System.out.print("Entre ton nom: ");
 
-            // TODO use a scanner to read player name
-            String playerName = sin.nextLine();
+            sin = new Scanner(System.in);
+
+            System.out.print("Multijoueur (y/n) ? ");
+            multiPlayer = sin.nextLine().charAt(0);
+
+            while (multiPlayer != 'y' && multiPlayer != 'n') {
+
+                System.out.println("caractère invalide ! essayez de nouveau");
+                multiPlayer = sin.nextLine().charAt(0);
+
+            }
             // TODO init boards
             Board b1, b2;
-            b1 = new Board(playerName, 6);
-            b2 = new Board("AI", 6);
+
+            if (multiPlayer == 'n') {
+
+                System.out.print("Entre ton nom: ");
+                String playerName = sin.nextLine();
+
+                b1 = new Board(playerName, 6);
+                b2 = new Board("AI", 6);
+            } else {
+                System.out.print("Entre le nom du premier joueur: ");
+                String playerName1 = sin.nextLine();
+
+                System.out.print("Entre le nom du deuxième joueur: ");
+                String playerName2 = sin.nextLine();
+
+                b1 = new Board(playerName1, 6);
+                b2 = new Board(playerName2, 6);
+
+            }
             // TODO init this.player1 & this.player2
-            ArrayList<AbstractShip> ships1 = new ArrayList<>() ;
+            ArrayList<AbstractShip> ships1 = new ArrayList<>();
             ships1.add(new Destroyer());
             ships1.add(new Submarine());
             ships1.add(new Submarine());
             ships1.add(new BattleShip());
             ships1.add(new Carrier());
-            AbstractShip [] shipsAsArray1  = ships1.toArray(new AbstractShip[ships1.size()]);
-            List<AbstractShip> ships2 = new ArrayList<>() ;
+            AbstractShip[] shipsAsArray1 = ships1.toArray(new AbstractShip[ships1.size()]);
+
+            List<AbstractShip> ships2 = new ArrayList<>();
             ships2.add(new Destroyer());
             ships2.add(new Submarine());
             ships2.add(new Submarine());
             ships2.add(new BattleShip());
             ships2.add(new Carrier());
-            AbstractShip [] shipsAsArray2  = ships2.toArray(new AbstractShip[ships2.size()]);
-            player1 = new Player(b1,b2,ships1);
-            player2 = new AIPlayer(b2,b1,ships2);
+            AbstractShip[] shipsAsArray2 = ships2.toArray(new AbstractShip[ships2.size()]);
+            if (multiPlayer == 'n') {
+                player1 = new Player(b1, b2, ships1);
+                player2 = new AIPlayer(b2, b1, ships2);
+            }else{
+                player1 = new Player(b1, b2, ships1);
+                player2 = new Player(b2, b1, ships2);
+
+            }
             b1.print();
-            // place player ships
             player1.putShips();
+            if (multiPlayer == 'y')
+                b2.print();
             player2.putShips();
         }
         return this;
@@ -67,13 +103,15 @@ public class Game {
      */
     public void run() throws Exception {
         int[] coords = new int[2];
+
         Board b1 = player1.board;
         Hit hit;
 
         // main loop
-        b1.print();
+
         boolean done;
         do {
+            b1.print();
             hit = player1.sendHit(coords); // TODO player1 send a hit
             boolean strike = (hit != Hit.MISS); // TODO set this hit on his board (b1)
 
@@ -84,6 +122,9 @@ public class Game {
             save();
 
             if (!done && !strike) {
+                if (multiPlayer == 'y') {
+                    player2.board.print();
+                }
                 do {
                     hit = player2.sendHit(coords); // TODO player2 send a hit.
 
@@ -94,10 +135,14 @@ public class Game {
                     System.out.println(makeHitMessage(true /* incoming hit */, coords, hit));
                     done = updateScore();
 
+                    if (multiPlayer == 'y') {
+                        player2.board.print();
+                    }
+
                     if (!done) {
                         save();
                     }
-                } while(strike && !done);
+                } while (strike && !done);
             }
 
         } while (!done);
@@ -178,7 +223,7 @@ public class Game {
         return Arrays.asList(new AbstractShip[]{new Destroyer(), new Submarine(), new Submarine(), new BattleShip(), new Carrier()});
     }
 
-    public static void main(String args[]) throws Exception{
+    public static void main(String args[]) throws Exception {
         new Game().init().run();
     }
 }

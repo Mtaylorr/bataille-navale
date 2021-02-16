@@ -39,6 +39,7 @@ public class Board implements IBoard {
     }
 
     public void print(){
+        System.out.println("---------"+name + "'s Board------------");
         String sizeAsString = Integer.toString(size);
         int space = sizeAsString.length();
 
