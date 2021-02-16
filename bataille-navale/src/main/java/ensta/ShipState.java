@@ -2,7 +2,7 @@ package ensta;
 import java.util.*;
 import java.lang.*;
 import java.io.*;
-public class ShipState{
+public class ShipState implements java.io.Serializable{
     AbstractShip ship;
     boolean struck;
     public ShipState(AbstractShip ship){

@@ -8,7 +8,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.lang.*;
 
-public class Game {
+public class Game implements java.io.Serializable{
 
     /* ***
      * Constante
@@ -20,7 +20,6 @@ public class Game {
      */
     private Player player1;
     private Player player2;
-    private Scanner sin;
     private char multiPlayer;
 
     /* ***
@@ -33,7 +32,7 @@ public class Game {
         if (!loadSave()) {
             // init attributes
 
-            sin = new Scanner(System.in);
+            Scanner  sin = new Scanner(System.in);
 
             System.out.print("Multijoueur (y/n) ? ");
             multiPlayer = sin.nextLine().charAt(0);
@@ -84,7 +83,7 @@ public class Game {
             if (multiPlayer == 'n') {
                 player1 = new Player(b1, b2, ships1);
                 player2 = new AIPlayer(b2, b1, ships2);
-            }else{
+            } else {
                 player1 = new Player(b1, b2, ships1);
                 player2 = new Player(b2, b1, ships2);
 
@@ -149,34 +148,55 @@ public class Game {
 
         SAVE_FILE.delete();
         System.out.println(String.format("joueur %d gagne", player1.lose ? 2 : 1));
-        sin.close();
     }
 
 
     private void save() {
-       /* try {
+        try {
             // TODO bonus 2 : uncomment
-            //  if (!SAVE_FILE.exists()) {
-            //      SAVE_FILE.getAbsoluteFile().getParentFile().mkdirs();
-            //  }
+            if (!SAVE_FILE.exists()) {
+                SAVE_FILE.getAbsoluteFile().getParentFile().mkdirs();
+            }
+            FileOutputStream fileOut =
+                    new FileOutputStream("savegame.dat");
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            //out.writeObject(multiPlayer);
+            //out.writeObject(player1);
+            //out.writeObject(player2);
+            out.writeObject(this);
+            out.close();
+            fileOut.close();
 
             // TODO bonus 2 : serialize players
 
         } catch (IOException e) {
             e.printStackTrace();
-        }*/
+        }
     }
 
     private boolean loadSave() {
-        /*if (SAVE_FILE.exists()) {
+        if (SAVE_FILE.exists()) {
+            System.out.println("trol");
             try {
                 // TODO bonus 2 : deserialize players
-
+                FileInputStream fileIn = new FileInputStream("savegame.dat");
+                ObjectInputStream in = new ObjectInputStream(fileIn);
+                Game savedGame = (Game) in.readObject();
+                this.multiPlayer=savedGame.multiPlayer;
+                this.player1=savedGame.player1;
+                this.player2=savedGame.player2;
+                //this.multiPlayer = (char) in.readObject();
+                //this.player1 = (Player) in.readObject();
+                //if(this.multiPlayer=='y')
+                //    this.player2 = (Player) in.readObject();
+                //else
+                //    this.player2 = (AIPlayer) in.readObject();
+                fileIn.close();
                 return true;
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
-        }*/
+        }
         return false;
     }
 

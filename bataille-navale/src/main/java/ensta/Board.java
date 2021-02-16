@@ -3,7 +3,7 @@ package ensta;
 import java.util.*;
 import java.lang.*;
 import java.io.*;
-public class Board implements IBoard {
+public class Board implements IBoard  , java.io.Serializable{
     String name;
     int size;
     Boolean [][]hitGrid;
@@ -90,8 +90,7 @@ public class Board implements IBoard {
                 if(hitGrid[i][j]!=null && hitGrid[i][j]==false)
                     line+="X";
                 else if(hitGrid[i][j]!=null && hitGrid[i][j]==true) {
-                    line += /*"R";*/ ColorUtil.colorize("X", ColorUtil.Color.RED);
-                    //System.out.println(ColorUtil.colorize("X", ColorUtil.Color.RED));
+                    line += ColorUtil.colorize("X", ColorUtil.Color.RED);
                 }
                 else
                     line+='.';

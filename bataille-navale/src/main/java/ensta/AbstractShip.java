@@ -1,11 +1,11 @@
 package ensta;
 
-public abstract class AbstractShip{
-    private char label;
-    private String name;
-    private int size;
-    private Orientation orientation;
-    private int strikeCount;
+public abstract class AbstractShip implements java.io.Serializable{
+    protected char label;
+    protected String name;
+    protected int size;
+    protected Orientation orientation;
+    protected int strikeCount;
     public AbstractShip(String _name, char _label, int _size, Orientation _orienation){
         this.name=_name;
         this.label=_label;

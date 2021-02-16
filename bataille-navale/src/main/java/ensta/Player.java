@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.*;
 import java.lang.*;
 import java.io.*;
-public class Player {
+public class Player implements java.io.Serializable{
     /* **
      * Attributs
      */
