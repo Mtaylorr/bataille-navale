@@ -1,4 +1,8 @@
-import ensta.*;
+import ensta.Boards.Board;
+import ensta.Boards.Hit;
+import ensta.Players.BattleShipsAI;
+import ensta.Ships.*;
+
 import java.lang.*;
 import java.util.ArrayList;
 

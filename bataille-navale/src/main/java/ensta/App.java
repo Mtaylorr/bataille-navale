@@ -1,5 +1,7 @@
 package ensta;
 
+import ensta.Players.Game;
+
 /**
  * Hello world!
  *
@@ -8,6 +10,10 @@ public class App
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+        try {
+            new Game().init().run();
+        }catch(Exception e){
+            System.out.println("Some problem happened !! ");
+        }
     }
 }

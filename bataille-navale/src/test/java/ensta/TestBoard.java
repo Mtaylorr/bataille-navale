@@ -1,4 +1,9 @@
-import ensta.*;
+import ensta.Boards.Board;
+import ensta.Boards.Hit;
+import ensta.Ships.BattleShip;
+import ensta.Ships.Destroyer;
+import ensta.Ships.Orientation;
+
 public class TestBoard{
     public static void main(String[] args) throws Exception{
         Board board = new Board("mahdi",5);
